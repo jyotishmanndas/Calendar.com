@@ -52,9 +52,8 @@ export function SignupForm() {
             });
             if (signInResponse?.ok) {
                 toast.success("Sign up completed successfully")
-
                 form.reset();
-                router.push("/getting-started")
+                router.push("/dashboard")
             }
         } catch (error) {
             if (axios.isAxiosError(error) && error.response?.status === 400) {
@@ -64,11 +63,13 @@ export function SignupForm() {
                     },
                     description: "This email is already in use. Please try signing in or using a different email."
                 })
+            } else if (axios.isAxiosError(error) && error.response?.status === 409) {
+                form.setError("username", {
+                    type: "manual",
+                    message: "Username already exists",
+                });
             } else {
                 toast("Uh oh! Something went wrong.", {
-                    style: {
-                        background: 'black',
-                    },
                     description: "There was a problem with your request.",
                 })
             }
@@ -96,7 +97,10 @@ export function SignupForm() {
                                     <FormItem>
                                         <FormLabel className="text-white">Username</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="username" {...field} className="border-neutral-700 text-white font-medium rounded-xl" />
+                                            <div className="flex">
+                                                <span className="inline-flex items-center px-2 rounded-l-xl border border-r-0 border-neutral-700 bg-[#171717] text-sm text-muted-foreground">cal.com/</span>
+                                                <Input {...field} className="border-neutral-700 focus:border-white focus:ring-white rounded-l-none rounded-r-xl text-white" />
+                                            </div>
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
