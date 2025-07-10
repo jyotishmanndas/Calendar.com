@@ -51,7 +51,7 @@ export function SignInForm() {
                 toast.success("Sign in successfully.")
 
                 form.reset();
-                router.push("/dashboard")
+                router.push("/event-types")
             };
         } catch (error) {
             console.log(error);
