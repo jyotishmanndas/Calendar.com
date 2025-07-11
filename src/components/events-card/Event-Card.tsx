@@ -6,6 +6,7 @@ import { Badge } from "../ui/badge";
 import { Clock, Ellipsis, ExternalLink, Link, Pencil, Trash2 } from "lucide-react";
 import { TooltipAction } from "../TooltipAction";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import { useRouter } from "next/navigation";
 
 interface EventCardProps {
     id: string;
@@ -18,8 +19,15 @@ interface EventCardProps {
 }
 
 export function EventCard({ id, title, description, url, duration, active, data }: EventCardProps) {
+
+    const router = useRouter();
+
+    const handleClick = () => {
+        router.push(`/event-types/${id}?tabName=setup`)
+    }
+
     return (
-        <Card onClick={() => { }} className="mt-2 bg-transparent hover:bg-[#171717] border-neutral-800 text-white transition cursor-pointer">
+        <Card onClick={handleClick} className="mt-2 bg-transparent hover:bg-[#171717] border-neutral-800 text-white transition cursor-pointer">
             <CardHeader className="p-3">
                 <CardTitle className="flex items-center gap-x-1 text-[#D4D4D4]">
                     {title} <span className="text-xs text-neutral-400">/{url}</span>
@@ -30,7 +38,6 @@ export function EventCard({ id, title, description, url, duration, active, data 
                 <Badge variant="outline" className="bg-[#404040] text-white text-xs flex items-center gap-x-1">
                     <Clock className="w-3 h-3" /> {duration}m
                 </Badge>
-
                 <div className="flex items-center gap-x-2">
                     {/* <Switch defaultChecked={active} onClick={(event) => event.stopPropagation()} className="scale-90" /> */}
                     {/* <EventActiveSwitch isActive={active} eventId={id} /> */}
@@ -68,7 +75,7 @@ export function EventCard({ id, title, description, url, duration, active, data 
                             <DropdownMenuGroup>
                                 <DropdownMenuItem onClick={(event) => {
                                     event.stopPropagation()
-                                    // router.push(`/dashboard/${id}?tabName=setup`);
+                                    router.push(`/dashboard/${id}?tabName=setup`);
                                 }}>
                                     <Pencil className="mr-2 w-4 h-4" />
                                     Edit

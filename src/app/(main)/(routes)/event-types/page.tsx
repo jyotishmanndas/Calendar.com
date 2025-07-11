@@ -1,5 +1,5 @@
 import { EmptyState } from "@/components/empty-state";
-import { EventCard } from "@/components/events-card/EventCard";
+import { EventCard } from "@/components/events-card/Event-Card";
 import { CreateEventModal } from "@/components/modals/create-event-modal";
 import { CurrentProfile } from "@/lib/currentProfile";
 import { prisma } from "@/lib/db";

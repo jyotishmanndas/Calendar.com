@@ -35,4 +35,10 @@ export const eventSchema = z.object({
     description: z.string(),
     duration: z.number().int().positive(),
     videoCallProvider: z.nativeEnum(videoCall)
+});
+
+export const profileUpdateSchema = z.object({
+    username: z.string().min(4).regex(/^[a-zA-Z0-9-]+$/, { message: "Username can only contain letters, numbers and -" }),
+    name: z.string().min(2, { message: "Name must be at leat 2 characters" }),
+    email: z.string().email({ message: "Email is required" })
 })
