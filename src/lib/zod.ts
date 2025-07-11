@@ -41,4 +41,8 @@ export const profileUpdateSchema = z.object({
     username: z.string().min(4).regex(/^[a-zA-Z0-9-]+$/, { message: "Username can only contain letters, numbers and -" }),
     name: z.string().min(2, { message: "Name must be at leat 2 characters" }),
     email: z.string().email({ message: "Email is required" })
-})
+});
+
+export const availabilitySchema = z.object({
+    name: z.string().min(2)
+});

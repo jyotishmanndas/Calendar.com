@@ -3,10 +3,11 @@
 import { User } from "@/generated/prisma";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Badge } from "../ui/badge";
-import { Clock, Ellipsis, ExternalLink, Link, Pencil, Trash2 } from "lucide-react";
+import { Clock, Ellipsis, ExternalLink, Link, LinkIcon, Pencil, Trash2 } from "lucide-react";
 import { TooltipAction } from "../TooltipAction";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { useRouter } from "next/navigation";
+import { Button } from "../ui/button";
 
 interface EventCardProps {
     id: string;
@@ -44,25 +45,22 @@ export function EventCard({ id, title, description, url, duration, active, data 
 
                     <TooltipAction label="Preview">
                         <a href={`${data.username}/${title}`} target="_blank">
-                            <button
-                                onClick={(event) => {
-                                    event.stopPropagation();
-                                    // router.push(url);
-                                }}
-                                className="p-[8px] rounded-md border border-neutral-700 text-white hover:bg-neutral-800 transition"
-                            >
+                            <Button size="icon">
                                 <ExternalLink className="w-4 h-4" />
-                            </button>
+                            </Button>
                         </a>
                     </TooltipAction>
 
                     <TooltipAction label="Copy link event">
-                        <button onClick={(event) => {
+                        {/* <button onClick={(event) => {
                             event.stopPropagation()
                             // copyLink()
                         }} className="p-[8px] rounded-md border border-neutral-700 text-white hover:bg-neutral-800 transition">
                             <Link className="w-4 h-4" />
-                        </button>
+                        </button> */}
+                        <Button size="icon">
+                            <LinkIcon className="w-4 h-4" />
+                        </Button>
                     </TooltipAction>
 
                     <DropdownMenu>

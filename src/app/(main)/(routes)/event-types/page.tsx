@@ -28,7 +28,7 @@ export default async function EventTypes() {
 
   return (
     <>
-      <div className=" h-scrren w-full flex items-center justify-between">
+      <div className="w-full flex items-center justify-between">
         <div className="flex flex-col items-start">
           <h1 className="text-white text-xl font-bold">Event Types</h1>
           <p className="text-neutral-400 text-sm">Create events to share for people to book on your calendar. </p>

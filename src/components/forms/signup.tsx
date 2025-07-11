@@ -53,7 +53,7 @@ export function SignupForm() {
             if (signInResponse?.ok) {
                 toast.success("Sign up completed successfully")
                 form.reset();
-                router.push("/dashboard")
+                router.push("/event-types")
             }
         } catch (error) {
             if (axios.isAxiosError(error) && error.response?.status === 400) {

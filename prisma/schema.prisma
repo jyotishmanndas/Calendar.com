@@ -20,9 +20,11 @@ model User {
   username      String?  @unique
   email         String?  @unique
   password      String?
+  about         String?
   emailVerified DateTime
 
-  events Event[]
+  events         Event[]
+  availabilities Availability[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -42,6 +44,43 @@ model Event {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Availability {
+  id   String @id @default(cuid())
+  name String
+
+  dayavailabilities dayAvailability[]
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model dayAvailability {
+  id       String   @id @default(cuid())
+  days     WeekDays
+  fromTime String
+  tillTime String
+  isActive Boolean  @default(true)
+
+  availabilityId String
+  availability   Availability @relation(fields: [availabilityId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum WeekDays {
+  Monday
+  Tuesday
+  Wednesday
+  Thursday
+  Friday
+  Saturday
+  Sunday
 }
 
 enum videoCall {

@@ -97,7 +97,7 @@ export function ProfileUpdateForm() {
                                     </FormItem>
                                 )}
                             />
-                            {/* <FormField
+                            <FormField
                                 control={form.control}
                                 name="email"
                                 render={({ field }) => (
@@ -109,7 +109,7 @@ export function ProfileUpdateForm() {
                                         <FormMessage />
                                     </FormItem>
                                 )}
-                            /> */}
+                            />
                         </div>
                         <Button disabled={!isValid} type="submit" className="flex ml-auto rounded-xl" variant="outline">
                             {loading && (

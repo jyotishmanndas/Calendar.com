@@ -10,8 +10,7 @@ export async function PATCH(req: NextRequest) {
     };
 
     try {
-        const { username, name, email } = await req.json();
-
+        const { username, name, email, about } = await req.json();
         if (username) {
             const existingUsername = await prisma.user.findUnique({
                 where: {
@@ -30,6 +29,7 @@ export async function PATCH(req: NextRequest) {
                 username,
                 name,
                 email,
+                about
             }
         })
         return NextResponse.json(profileUpdate, { status: 200 })

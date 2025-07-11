@@ -12,7 +12,6 @@ export async function PATCH(req: NextRequest) {
 
     try {
         const { name, username } = await req.json();
-
         if (username) {
             const existingUsername = await prisma.user.findUnique({
                 where: {
@@ -31,7 +30,25 @@ export async function PATCH(req: NextRequest) {
             },
             data: {
                 name,
-                username
+                username,
+                availabilities: {
+                    create: {
+                        name: "Working Hours",
+                        dayavailabilities: {
+                            createMany: {
+                                data: [
+                                    { days: "Sunday", fromTime: "08:00", tillTime: "18:00" },
+                                    { days: "Monday", fromTime: "08:00", tillTime: "18:00" },
+                                    { days: "Tuesday", fromTime: "08:00", tillTime: "18:00" },
+                                    { days: "Wednesday", fromTime: "08:00", tillTime: "18:00" },
+                                    { days: "Thursday", fromTime: "08:00", tillTime: "18:00" },
+                                    { days: "Friday", fromTime: "08:00", tillTime: "18:00" },
+                                    { days: "Saturday", fromTime: "08:00", tillTime: "18:00" },
+                                ]
+                            }
+                        }
+                    }
+                }
             }
         });
         return NextResponse.json(profileUpdate, { status: 200 })
