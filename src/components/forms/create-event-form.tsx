@@ -36,8 +36,7 @@ export function CreateEventForm() {
             setLoading(true)
             const res = await axios.post("/api/createEvent", values);
             form.reset();
-            router.refresh();
-            router.push(`/evnt-types/${res.data.id}`)
+            router.push(`/event-types/${res.data.id}?tabName=setup`)
             toast.success("event create successfully")
 
         } catch (error) {
