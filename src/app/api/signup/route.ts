@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import { CurrentProfile } from "@/lib/currentProfile";
 
 export async function POST(req: NextRequest) {
     try {
@@ -46,4 +47,20 @@ export async function POST(req: NextRequest) {
         console.log(error);
         return new NextResponse("Internal error", { status: 500 })
     }
+}
+
+
+export async function GET(req: NextRequest) {
+    const profile = await CurrentProfile();
+    if (!profile) {
+        return new NextResponse("Unauthorized", { status: 401 })
+    };
+
+    const data = await prisma.user.findFirst({
+        where: {
+            id: profile.id
+        }
+    })
+
+    return NextResponse.json(data, { status: 200 })
 }

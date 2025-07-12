@@ -23,7 +23,8 @@ export function ProfileUpdateForm() {
         defaultValues: {
             username: "",
             name: "",
-            email: ""
+            email: "",
+            about: ""
         },
     });
     const { isValid } = form.formState;

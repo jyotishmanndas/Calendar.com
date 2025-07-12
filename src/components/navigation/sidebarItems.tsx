@@ -50,7 +50,7 @@ export function SidebarItems() {
                     "flex items-center gap-2 text-neutral-400 py-1 px-3 mt-1 rounded-lg transition-all",
                     pathname === link.href ? "text-white bg-[#404040]" : "text-white hover:bg-[#262626]"
                 )}>
-                   <link.icon className="size-4" />
+                    <link.icon className="size-4" />
                     {link.name}
                 </Link>
             ))}

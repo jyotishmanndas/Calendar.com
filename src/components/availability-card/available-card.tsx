@@ -35,20 +35,19 @@ function parseTimeStringToDate(time: string): Date | null {
 
 // Groups and formats availabilities by time slot and days
 function groupAndFormatAvailabilities(availabilities: dayAvailability[]): string[] {
-    // Only include active availabilities
     const activeAvailabilities = availabilities.filter(avail => avail.isActive);
 
-    // Group days by their time slot (e.g., "9:00 AM - 5:00 PM")
+    // Step 1: Build a map from time slot to array of days
     const timeSlotToDays: Record<string, string[]> = {};
 
     activeAvailabilities.forEach(({ days, fromTime, tillTime }) => {
         const fromDate = parseTimeStringToDate(fromTime);
         const tillDate = parseTimeStringToDate(tillTime);
-        if (!fromDate || !tillDate) return; // Skip if time is invalid
+        if (!fromDate || !tillDate) return;
 
         const timeSlot = `${format(fromDate, "h:mm a")} - ${format(tillDate, "h:mm a")}`;
         const dayShort = DAY_SHORT_NAMES[days];
-        if (!dayShort) return; // Skip if day is invalid
+        if (!dayShort) return;
 
         if (!timeSlotToDays[timeSlot]) {
             timeSlotToDays[timeSlot] = [];
@@ -56,20 +55,37 @@ function groupAndFormatAvailabilities(availabilities: dayAvailability[]): string
         timeSlotToDays[timeSlot].push(dayShort);
     });
 
-    // Format the grouped data for display
+    // Step 2: Reverse map — group days with same time slot
     const formatted: string[] = [];
+
     for (const [timeSlot, days] of Object.entries(timeSlotToDays)) {
-        if (days.length === 7) {
-            // All days covered: show as "Mon-Sun"
-            formatted.push(`Mon-Sun ${timeSlot}`);
-        } else {
-            // Sort days and join with commas
-            const sortedDays = days.sort((a, b) => WEEKDAY_ORDER.indexOf(a) - WEEKDAY_ORDER.indexOf(b));
-            formatted.push(`${sortedDays.join(", ")} ${timeSlot}`);
+        // Sort days
+        const sortedDays = days.sort((a, b) => WEEKDAY_ORDER.indexOf(a) - WEEKDAY_ORDER.indexOf(b));
+
+        // Convert day list to compact string (e.g., "Mon-Sat")
+        const groupedDays: string[] = [];
+        let start = 0;
+        while (start < sortedDays.length) {
+            let end = start;
+            while (
+                end + 1 < sortedDays.length &&
+                WEEKDAY_ORDER.indexOf(sortedDays[end + 1]) === WEEKDAY_ORDER.indexOf(sortedDays[end]) + 1
+            ) {
+                end++;
+            }
+
+            if (start === end) {
+                groupedDays.push(sortedDays[start]);
+            } else {
+                groupedDays.push(`${sortedDays[start]}-${sortedDays[end]}`);
+            }
+            start = end + 1;
         }
+        formatted.push(`${groupedDays.join(", ")} ${timeSlot}`);
     }
     return formatted;
 }
+
 
 export function AvailableCard({ data }: AvailableCardProps) {
     const router = useRouter();
