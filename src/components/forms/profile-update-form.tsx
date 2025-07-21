@@ -15,15 +15,21 @@ import axios from "axios";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-export function ProfileUpdateForm() {
+interface ProfileUpdateFormProps {
+    username: string;
+    name: string;
+    email: string;
+};
+
+export function ProfileUpdateForm({ username, name, email }: ProfileUpdateFormProps) {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
     const form = useForm<z.infer<typeof profileUpdateSchema>>({
         resolver: zodResolver(profileUpdateSchema),
         defaultValues: {
-            username: "",
-            name: "",
-            email: "",
+            username: username,
+            name: name,
+            email: email,
             about: ""
         },
     });
@@ -100,7 +106,7 @@ export function ProfileUpdateForm() {
                             />
                             <FormField
                                 control={form.control}
-                                name="email"
+                                name="about"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="text-white">About</FormLabel>
@@ -123,4 +129,4 @@ export function ProfileUpdateForm() {
             </CardContent>
         </Card>
     )
-}
+};

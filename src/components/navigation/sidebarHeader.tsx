@@ -4,6 +4,14 @@ import { ChevronDown, LogOut, Settings, User } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { signOut } from "next-auth/react";
+
+const handelSignout = async () => {
+    await signOut({
+        callbackUrl: "/signup",
+        redirect: true
+    })
+};
 
 export function SidebarHeader() {
     return (
@@ -22,17 +30,13 @@ export function SidebarHeader() {
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56 bg-[#0F0F0F] text-neutral-400 border-zinc-800">
                 <DropdownMenuGroup>
-                    <DropdownMenuItem>
-                        <span className="cursor-pointer">My Profile</span>
-                        <User className="mr-2 h-5 w-5 ml-auto" />
-                    </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                        <Link href="/settings/profile">
-                            <span>Setting</span>
-                            <Settings className="mr-2 h-5 w-5 ml-auto" />
+                        <Link href="/settings/profile" className="cursor-pointer">
+                            <span className="cursor-pointer">My Profile</span>
+                            <User className="mr-2 h-5 w-5 ml-auto" />
                         </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => { }}>
+                    <DropdownMenuItem onClick={handelSignout} className="cursor-pointer">
                         <span>Sign Out</span>
                         <LogOut className="mr-2 h-5 w-5 ml-auto" />
                     </DropdownMenuItem>
