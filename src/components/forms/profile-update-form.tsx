@@ -10,29 +10,44 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { profileUpdateSchema } from "@/lib/zod";
 import { Button } from "../ui/button";
 import { Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useRecoilValue } from "recoil";
+import { userState } from "@/lib/userAtom";
 
 interface ProfileUpdateFormProps {
     username: string;
     name: string;
     email: string;
+    about: string;
 };
 
-export function ProfileUpdateForm({ username, name, email }: ProfileUpdateFormProps) {
+export function ProfileUpdateForm({ username, name, email, about }: ProfileUpdateFormProps) {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
+    const profile = useRecoilValue(userState)
+
     const form = useForm<z.infer<typeof profileUpdateSchema>>({
         resolver: zodResolver(profileUpdateSchema),
         defaultValues: {
-            username: username,
-            name: name,
-            email: email,
-            about: ""
+            username: profile?.username || "",
+            name: profile?.name || "",
+            email: profile?.email || "",
+            about: profile?.about || ""
         },
     });
+    // useEffect(() => {
+    //     if (profile) {
+    //         form.reset({
+    //             username: profile.username || "",
+    //             name: profile.name || "",
+    //             email: profile.email || "",
+    //             about: profile.about || ""
+    //         });
+    //     }
+    // }, [profile, form]);
     const { isValid } = form.formState;
 
     async function onSubmit(values: z.infer<typeof profileUpdateSchema>) {
@@ -72,7 +87,7 @@ export function ProfileUpdateForm({ username, name, email }: ProfileUpdateFormPr
                                     <FormItem>
                                         <FormLabel className="text-white">Username</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="Quick chat" {...field} className="border-neutral-700 focus:border-white text-white font-medium rounded-xl " />
+                                            <Input placeholder="Quick chat" {...field} className="border-neutral-700 focus:border-white text-gray-300 rounded-xl " />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -85,7 +100,7 @@ export function ProfileUpdateForm({ username, name, email }: ProfileUpdateFormPr
                                     <FormItem>
                                         <FormLabel className="text-white">Full name</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="Quick chat" {...field} className="border-neutral-700 focus:border-white text-white font-medium rounded-xl" />
+                                            <Input placeholder="Quick chat" {...field} className="border-neutral-700 focus:border-white text-gray-300 rounded-xl" />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -98,7 +113,7 @@ export function ProfileUpdateForm({ username, name, email }: ProfileUpdateFormPr
                                     <FormItem>
                                         <FormLabel className="text-white">Email</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="Quick chat" {...field} className="border-neutral-700 focus:border-white text-white font-medium rounded-xl" />
+                                            <Input placeholder="Quick chat" {...field} className="border-neutral-700 focus:border-white text-gray-300 rounded-xl" />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -111,7 +126,7 @@ export function ProfileUpdateForm({ username, name, email }: ProfileUpdateFormPr
                                     <FormItem>
                                         <FormLabel className="text-white">About</FormLabel>
                                         <FormControl>
-                                            <Textarea placeholder="A quick video metting" {...field} className="h-28 border-neutral-700 focus:border-white text-white font-medium rounded-xl" />
+                                            <Textarea placeholder="A quick video metting" {...field} className="h-28 border-neutral-700 focus:border-white text-gray-300 rounded-xl" />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>

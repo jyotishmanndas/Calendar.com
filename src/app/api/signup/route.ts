@@ -47,20 +47,4 @@ export async function POST(req: NextRequest) {
         console.log(error);
         return new NextResponse("Internal error", { status: 500 })
     }
-}
-
-
-export async function GET(req: NextRequest) {
-    const profile = await CurrentProfile();
-    if (!profile) {
-        return new NextResponse("Unauthorized", { status: 401 })
-    };
-
-    const data = await prisma.user.findFirst({
-        where: {
-            id: profile.id
-        }
-    })
-
-    return NextResponse.json(data, { status: 200 })
-}
+};

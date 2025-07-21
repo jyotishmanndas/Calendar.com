@@ -12,9 +12,12 @@ export async function PATCH(req: NextRequest) {
     try {
         const { name, username } = await req.json();
         if (username) {
-            const existingUsername = await prisma.user.findUnique({
+            const existingUsername = await prisma.user.findFirst({
                 where: {
-                    username
+                    username,
+                    id:{
+                        not: profile.id
+                    }
                 }
             });
 
@@ -35,6 +38,7 @@ export async function PATCH(req: NextRequest) {
                         name: "Working Hours",
                         dayavailabilities: {
                             createMany: {
+                                skipDuplicates: true,
                                 data: [
                                     { days: "Sunday", fromTime: "08:00", tillTime: "18:00" },
                                     { days: "Monday", fromTime: "08:00", tillTime: "18:00" },
@@ -54,4 +58,4 @@ export async function PATCH(req: NextRequest) {
     } catch (error) {
         return new NextResponse("Internal Error", { status: 500 })
     }
-}
+};

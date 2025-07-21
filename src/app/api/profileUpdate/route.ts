@@ -12,9 +12,12 @@ export async function PATCH(req: NextRequest) {
     try {
         const { username, name, email, about } = await req.json();
         if (username) {
-            const existingUsername = await prisma.user.findUnique({
+            const existingUsername = await prisma.user.findFirst({
                 where: {
-                    username
+                    username,
+                    id:{
+                        not: profile.id
+                    }
                 }
             });
             if (existingUsername) {

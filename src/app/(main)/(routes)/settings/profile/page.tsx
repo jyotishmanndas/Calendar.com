@@ -16,6 +16,7 @@ export default async function ProfilePage() {
                 username={profile.username || ""}
                 name={profile.name || ""}
                 email={profile.email || ""}
+                about={profile.about || ""}
             />
             <DeleteAccount />
         </div>
