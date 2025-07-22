@@ -8,6 +8,8 @@ import { TooltipAction } from "../TooltipAction";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
+import { toast } from "sonner";
+import { Switch } from "../ui/switch";
 
 interface EventCardProps {
     id: string;
@@ -20,12 +22,17 @@ interface EventCardProps {
 }
 
 export function EventCard({ id, title, description, url, duration, active, data }: EventCardProps) {
-
     const router = useRouter();
-
     const handleClick = () => {
-        router.push(`/event-types/${id}?tabName=setup`)
-    }
+        router.push(`/event-types/${id}?tabName=setup`);
+    };
+    const copyLink = () => {
+        const url = `${process.env.NEXT_PUBLIC_URL}/${data.username}/${title}`;
+        navigator.clipboard.writeText(url);
+        toast.success("Link copied!", {
+            style: { width: "150px" }
+        });
+    };
 
     return (
         <Card onClick={handleClick} className="mt-2 bg-transparent hover:bg-[#171717] border-neutral-800 text-white transition cursor-pointer">
@@ -42,32 +49,30 @@ export function EventCard({ id, title, description, url, duration, active, data 
                 <div className="flex items-center gap-x-2">
                     {/* <Switch defaultChecked={active} onClick={(event) => event.stopPropagation()} className="scale-90" /> */}
                     {/* <EventActiveSwitch isActive={active} eventId={id} /> */}
+                    <Switch defaultChecked={active} onClick={(event) => event.stopPropagation()} className="scale-90" />
 
                     <TooltipAction label="Preview">
                         <a href={`${data.username}/${title}`} target="_blank">
-                            <Button size="icon">
+                            <Button size="icon" variant="custom" onClick={(event) => event.stopPropagation()}>
                                 <ExternalLink className="w-4 h-4" />
                             </Button>
                         </a>
                     </TooltipAction>
 
                     <TooltipAction label="Copy link event">
-                        {/* <button onClick={(event) => {
-                            event.stopPropagation()
-                            // copyLink()
-                        }} className="p-[8px] rounded-md border border-neutral-700 text-white hover:bg-neutral-800 transition">
-                            <Link className="w-4 h-4" />
-                        </button> */}
-                        <Button size="icon">
+                        <Button size="icon" variant="custom" onClick={(event) => {
+                            event.stopPropagation();
+                            copyLink();
+                        }}>
                             <LinkIcon className="w-4 h-4" />
                         </Button>
                     </TooltipAction>
 
                     <DropdownMenu>
                         <DropdownMenuTrigger className="focus:outline-none" asChild>
-                            <button onClick={(event) => event.stopPropagation()} className="p-[8px] rounded-md border border-neutral-700 text-white hover:bg-neutral-800 transition">
+                            <Button size="icon" variant="custom" onClick={(event) => event.stopPropagation()}>
                                 <Ellipsis className="w-4 h-4" />
-                            </button>
+                            </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="w-40 bg-black text-neutral-400 border-zinc-800">
                             <DropdownMenuGroup>

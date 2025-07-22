@@ -32,7 +32,7 @@ export const profileSetupSchema = z.object({
 export const eventSchema = z.object({
     title: z.string().min(2),
     url: z.string().url(),
-    description: z.string(),
+    description: z.string().optional(),
     duration: z.number().int().positive(),
     videoCallProvider: z.nativeEnum(videoCall)
 });

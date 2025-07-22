@@ -17,14 +17,15 @@ import { useRouter } from "next/navigation";
 import { useRecoilValue } from "recoil";
 import { userState } from "@/lib/userAtom";
 
-interface ProfileUpdateFormProps {
-    username: string;
-    name: string;
-    email: string;
-    about: string;
-};
+// interface ProfileUpdateFormProps {
+//     username: string;
+//     name: string;
+//     email: string;
+//     about: string;
+// };
+// { username, name, email, about }: ProfileUpdateFormProps
 
-export function ProfileUpdateForm({ username, name, email, about }: ProfileUpdateFormProps) {
+export function ProfileUpdateForm() {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
     const profile = useRecoilValue(userState)

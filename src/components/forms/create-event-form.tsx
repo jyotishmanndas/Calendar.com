@@ -36,6 +36,7 @@ export function CreateEventForm() {
             setLoading(true)
             const res = await axios.post("/api/createEvent", values);
             form.reset();
+            router.refresh();
             router.push(`/event-types/${res.data.id}?tabName=setup`)
             toast.success("event create successfully")
 
@@ -80,7 +81,6 @@ export function CreateEventForm() {
                         name="description"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel className="text-white">Description</FormLabel>
                                 <FormControl>
                                     <Textarea placeholder="A quick video metting" {...field} className="border-neutral-700 focus:border-white text-white font-medium rounded-xl" />
                                 </FormControl>
@@ -97,7 +97,6 @@ export function CreateEventForm() {
                                 <FormControl>
                                     <Input
                                         type="number"
-                                        placeholder="shadcn"
                                         value={field.value}
                                         onChange={(e) => field.onChange(Number(e.target.value))}
                                         className="border-neutral-700 focus:border-white text-white font-medium rounded-xl"

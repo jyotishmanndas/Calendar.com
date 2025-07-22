@@ -13,10 +13,10 @@ export default async function ProfilePage() {
     return (
         <div className="min-h-screen flex flex-col items-center justify-center text-white">
             <ProfileUpdateForm
-                username={profile.username || ""}
-                name={profile.name || ""}
-                email={profile.email || ""}
-                about={profile.about || ""}
+                // username={profile.username || ""}
+                // name={profile.name || ""}
+                // email={profile.email || ""}
+                // about={profile.about || ""}
             />
             <DeleteAccount />
         </div>
