@@ -6,12 +6,13 @@ import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { signOut } from "next-auth/react";
 
-const handelSignout = async () => {
-    await signOut({
-        callbackUrl: "/signup",
-        redirect: true
-    })
-};
+// const handelSignout = async () => {
+//     "use server";
+//     await signOut({
+//         callbackUrl: "/signup",
+//         redirect: true
+//     })
+// };
 
 export function SidebarHeader() {
     return (
@@ -36,7 +37,7 @@ export function SidebarHeader() {
                             <User className="mr-2 h-5 w-5 ml-auto" />
                         </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={handelSignout} className="cursor-pointer">
+                    <DropdownMenuItem onClick={() => { }} className="cursor-pointer">
                         <span>Sign Out</span>
                         <LogOut className="mr-2 h-5 w-5 ml-auto" />
                     </DropdownMenuItem>

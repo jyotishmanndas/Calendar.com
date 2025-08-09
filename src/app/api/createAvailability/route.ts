@@ -4,14 +4,13 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
     const profile = await CurrentProfile();
-
     if (!profile) {
         return new NextResponse("Unauthorized", { status: 401 })
     };
 
     try {
         const { name } = await req.json();
-        const availability = prisma.availability.create({
+        const availability = await prisma.availability.create({
             data: {
                 name,
                 userId: profile.id,
@@ -32,6 +31,7 @@ export async function POST(req: NextRequest) {
         });
         return NextResponse.json(availability, { status: 200 })
     } catch (error) {
-        return new NextResponse("Internal error", { status: 401 })
+        console.error("Availability creation error:", error);
+        return new NextResponse("Internal error", { status: 500 })
     }
 }
