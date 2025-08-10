@@ -6,12 +6,13 @@ import { prisma } from "@/lib/db";
 import { CalendarX2, Clock, Video } from "lucide-react";
 import { redirect } from "next/navigation";
 
-export default async function BookingsPage({ params }: { params: { username: string, title: string } }) {
+export default async function BookingsPage({ params, searchParams }: { params: { username: string, title: string }; searchParams: { date?: string } }) {
     const profile = await CurrentProfile();
     if (!profile) {
         return redirect("/signup");
     };
 
+    const selectedDate = searchParams.date ? new Date(searchParams.date) : new Date();
     const event = await prisma.event.findFirst({
         where: {
             title: params.title,
@@ -60,7 +61,7 @@ export default async function BookingsPage({ params }: { params: { username: str
 
                             <span className="flex items-center gap-x-2 text-muted">
                                 <CalendarX2 className="w-4 h-4" />
-                                <span className="text-sm font-medium">23. Sept 2025</span>
+                                <span className="text-sm font-medium">{selectedDate.toDateString()}</span>
                             </span>
 
                             <span className="flex items-center gap-x-2 text-muted">
@@ -70,7 +71,10 @@ export default async function BookingsPage({ params }: { params: { username: str
                         </div>
                     </div>
                     <Separator orientation="vertical" className="h-full w-[0.8px] bg-neutral-700" />
+
                     <RenderCalendar dayavailabilities={event.availability?.dayavailabilities as any} />
+                    
+                    <Separator orientation="vertical" className="h-full w-[0.8px] bg-neutral-700" />
                 </CardContent>
             </Card>
         </div>
