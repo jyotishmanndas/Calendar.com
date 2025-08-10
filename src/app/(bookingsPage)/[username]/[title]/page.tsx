@@ -1,4 +1,5 @@
 import { RenderCalendar } from "@/components/bookingForm/rendercalendar";
+import { TimeTable } from "@/components/bookingForm/timeTable";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { CurrentProfile } from "@/lib/currentProfile";
@@ -70,11 +71,13 @@ export default async function BookingsPage({ params, searchParams }: { params: {
                             </span>
                         </div>
                     </div>
-                    <Separator orientation="vertical" className="h-full w-[0.8px] bg-neutral-700" />
+                    <Separator orientation="vertical" className="h-full w-[0.8px] bg-neutral-800" />
 
                     <RenderCalendar dayavailabilities={event.availability?.dayavailabilities as any} />
-                    
-                    <Separator orientation="vertical" className="h-full w-[0.8px] bg-neutral-700" />
+
+                    <Separator orientation="vertical" className="h-full w-[0.8px] bg-neutral-800" />
+
+                    <TimeTable selectedDate={selectedDate} username={params.username} />
                 </CardContent>
             </Card>
         </div>

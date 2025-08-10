@@ -14,7 +14,6 @@ interface CalendarHeaderProps {
 }
 
 export function CalendarHeader({ state, calendarProps, prevButtonProps, nextButtonProps }: CalendarHeaderProps) {
-
     const monthDateFormatter = useDateFormatter({
         month: "short",
         year: "numeric",

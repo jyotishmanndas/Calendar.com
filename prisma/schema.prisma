@@ -61,7 +61,7 @@ model dayAvailability {
 model Event {
   id                String    @id @default(cuid())
   title             String
-  url               String
+  url               String   @unique
   description       String?
   duration          Int
   active            Boolean   @default(true)
