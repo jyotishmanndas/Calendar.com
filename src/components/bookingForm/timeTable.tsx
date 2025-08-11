@@ -44,7 +44,7 @@ export async function TimeTable({ selectedDate, username }: TimeTableProps) {
     };
 
     const event = data.events[0];
-    const eventDuration = event.duration
+    const eventDuration = event.duration;
 
     const dayAvailability = event.availability?.dayavailabilities.find(
         availability => availability.days === weekday
@@ -65,7 +65,7 @@ export async function TimeTable({ selectedDate, username }: TimeTableProps) {
             current = addMinutes(current, duration);
         }
         return slots;
-    }
+    };
 
     const slots = generateTimeSlots(dayAvailability.fromTime, dayAvailability.tillTime, eventDuration)
 
@@ -78,14 +78,12 @@ export async function TimeTable({ selectedDate, username }: TimeTableProps) {
 
             <ScrollArea className="px-4">
                 <div className="mt-3 max-h-[350px]">
-                    {slots.length > 0 ? (
+                    {slots.length > 0 && (
                         slots.map((slot, idx) => (
                             <Link href="/" key={idx}>
                                 <Button variant="custom" className="w-full text-white mb-2 border-neutral-700">{slot}</Button>
                             </Link>
                         ))
-                    ) : (
-                        <p className="text-muted-foreground">No availability for this day</p>
                     )}
                 </div>
             </ScrollArea>

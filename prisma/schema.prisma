@@ -25,6 +25,7 @@ model User {
 
   events         Event[]
   availabilities Availability[]
+  bookings       Bookings[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -56,22 +57,45 @@ model dayAvailability {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([availabilityId, days])
 }
 
 model Event {
   id                String    @id @default(cuid())
   title             String
-  url               String   @unique
+  url               String    @unique
   description       String?
   duration          Int
   active            Boolean   @default(true)
   videoCallProvider videoCall @default(GoogleMeet)
 
+  bookings Bookings[]
+
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  availabilityId String?
-  availability   Availability? @relation(fields: [availabilityId], references: [id], onDelete: Cascade)
+  availabilityId String
+  availability   Availability @relation(fields: [availabilityId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Bookings {
+  id            String   @id @default(cuid())
+  name          String
+  email         String
+  fromTime      DateTime
+  tillTime      DateTime
+  mettingLink   String
+  googleEventId String
+
+  userId String
+  User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  eventId String
+  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
